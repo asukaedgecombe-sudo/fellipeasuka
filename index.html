@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>IB DP Study Guide</title>
+  <style>
+    :root{
+      --bg:#0b1020;
+      --card:#121a33;
+      --muted:#97a3c6;
+      --text:#eaf0ff;
+      --accent:#7c5cff;
+      --accent2:#2ee59d;
+      --border:rgba(255,255,255,.10);
+      --shadow: 0 18px 60px rgba(0,0,0,.45);
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      background: radial-gradient(1200px 600px at 20% 0%, rgba(124,92,255,.35), transparent 60%),
+                  radial-gradient(1000px 700px at 80% 10%, rgba(46,229,157,.22), transparent 55%),
+                  var(--bg);
+      color:var(--text);
+    }
+    a{color:inherit}
+    .container{max-width:1100px;margin:0 auto;padding:28px 18px 60px}
+    .hero{
+      border:1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      box-shadow: var(--shadow);
+      border-radius: calc(var(--radius) + 10px);
+      padding:28px;
+      overflow:hidden;
+      position:relative;
+    }
+    .badge{
+      display:inline-flex;gap:8px;align-items:center;
+      padding:8px 12px;border-radius:999px;
+      border:1px solid var(--border);
+      color:var(--muted);
+      background: rgba(255,255,255,.03);
+      font-size:12px;
+      letter-spacing:.2px;
+    }
+    .dot{width:8px;height:8px;border-radius:99px;background:var(--accent2);box-shadow:0 0 0 6px rgba(46,229,157,.12)}
+    h1{margin:14px 0 8px;font-size:34px;line-height:1.15}
+    .sub{margin:0;color:var(--muted);max-width:72ch}
+    .toolbar{
+      display:grid;grid-template-columns: 1.2fr .8fr;gap:12px;
+      margin-top:18px;
+    }
+    .input, .select{
+      width:100%;
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid var(--border);
+      background: rgba(0,0,0,.20);
+      color:var(--text);
+      outline:none;
+    }
+    .input::placeholder{color:rgba(234,240,255,.55)}
+    .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+    .chip{
+      cursor:pointer;
+      user-select:none;
+      font-size:13px;
+      padding:9px 12px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      color:var(--muted);
+      transition:.15s ease;
+    }
+    .chip.active{
+      background: rgba(124,92,255,.18);
+      border-color: rgba(124,92,255,.45);
+      color: var(--text);
+    }
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap:14px;
+      margin-top:18px;
+    }
+    .card{
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.04);
+      border-radius: var(--radius);
+      padding:14px;
+      box-shadow: 0 12px 40px rgba(0,0,0,.25);
+      transition: transform .15s ease, border-color .15s ease;
+      display:flex;flex-direction:column;gap:10px;
+      min-height:170px;
+    }
+    .card:hover{transform: translateY(-2px);border-color: rgba(255,255,255,.18)}
+    .title{font-weight:700;font-size:16px;margin:0}
+    .meta{display:flex;gap:8px;flex-wrap:wrap}
+    .tag{
+      font-size:12px;
+      padding:6px 10px;border-radius:999px;
+      border:1px solid var(--border);
+      color: var(--muted);
+      background: rgba(0,0,0,.16);
+    }
+    .desc{margin:0;color:var(--muted);font-size:13px;line-height:1.45}
+    .btn{
+      margin-top:auto;
+      display:inline-flex;align-items:center;justify-content:center;
+      gap:10px;
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px solid rgba(124,92,255,.45);
+      background: linear-gradient(180deg, rgba(124,92,255,.24), rgba(124,92,255,.10));
+      color:var(--text);
+      cursor:pointer;
+      transition:.15s ease;
+      font-weight:600;
+    }
+    .btn:hover{filter:brightness(1.05)}
+    .footer{
+      margin-top:18px;
+      color:rgba(234,240,255,.55);
+      font-size:12px;
+      text-align:center;
+    }
+
+    /* Modal */
+    .modalBack{
+      position:fixed;inset:0;
+      background: rgba(0,0,0,.62);
+      display:none;
+      align-items:center;justify-content:center;
+      padding:18px;
+      z-index:9999;
+    }
+    .modal{
+      width:min(860px, 100%);
+      border:1px solid var(--border);
+      background: rgba(15,20,40,.92);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .modalHead{
+      padding:14px 16px;
+      display:flex;align-items:center;justify-content:space-between;
+      border-bottom:1px solid var(--border);
+      background: rgba(255,255,255,.03);
+    }
+    .modalBody{padding:16px}
+    .close{
+      cursor:pointer;
+      border:1px solid var(--border);
+      background: rgba(0,0,0,.22);
+      color:var(--text);
+      border-radius:12px;
+      padding:8px 10px;
+      font-weight:700;
+    }
+    .links{display:grid;gap:10px;margin-top:12px}
+    .linkItem{
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      border-radius:14px;
+      padding:12px;
+      display:flex;align-items:center;justify-content:space-between;
+      gap:10px;
+    }
+    .linkItem small{color:var(--muted)}
+    .open{
+      text-decoration:none;
+      border:1px solid rgba(46,229,157,.45);
+      background: linear-gradient(180deg, rgba(46,229,157,.22), rgba(46,229,157,.10));
+      padding:8px 10px;border-radius:12px;
+      font-weight:700;
+      white-space:nowrap;
+    }
+    @media (max-width: 900px){
+      .grid{grid-template-columns: repeat(2, minmax(0,1fr));}
+      .toolbar{grid-template-columns: 1fr;}
+    }
+    @media (max-width: 520px){
+      h1{font-size:26px}
+      .grid{grid-template-columns: 1fr;}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="hero">
+      <div class="badge"><span class="dot"></span> IB DP Study Guide Hub</div>
+      <h1>Study smarter for the IB Diploma Programme</h1>
+      <p class="sub">
+        Search by subject, filter by group, and open curated guides, practice, and quick notes.
+        You can replace the content with your own resources anytime.
+      </p>
+
+      <div class="toolbar">
+        <input id="search" class="input" placeholder="Search: e.g., HL essay, stoichiometry, vectors, Paper 1..." />
+        <select id="level" class="select">
+          <option value="ALL">All levels</option>
+          <option value="SL">SL only</option>
+          <option value="HL">HL only</option>
+          <option value="CORE">CORE (TOK/EE/CAS)</option>
+        </select>
+      </div>
+
+      <div class="row" id="chips"></div>
+    </div>
+
+    <div class="grid" id="grid"></div>
+
+    <div class="footer">
+      Tip: Edit the <b>GUIDES</b> array in the code to add your own PDFs, Google Drive links, Notion pages, or videos.
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modalBack" id="modalBack" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modalHead">
+        <div>
+          <div id="modalTitle" style="font-weight:800"></div>
+          <div id="modalMeta" style="color:var(--muted);font-size:12px;margin-top:2px"></div>
+        </div>
+        <button class="close" id="closeBtn">✕</button>
+      </div>
+      <div class="modalBody">
+        <p id="modalDesc" class="desc"></p>
+        <div class="links" id="modalLinks"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ====== EDIT THIS DATA ======
+    const GUIDES = [
+      {
+        group: "Group 1",
+        subject: "English A: Language & Literature",
+        level: "HL",
+        focus: "Paper 1 • Paper 2 • HL Essay",
+        desc: "Text types, guiding questions, structure templates, and annotation strategies.",
+        links: [
+          { label: "Paper 1 Quick Structure", url: "https://example.com/english-paper1" },
+          { label: "HL Essay Checklist", url: "https://example.com/hl-essay" }
+        ]
+      },
+      {
+        group: "Group 4",
+        subject: "Physics",
+        level: "HL",
+        focus: "Mechanics • Waves • Fields",
+        desc: "Formula + concept map + common traps + past paper approach.",
+        links: [
+          { label: "Mechanics Notes (PDF)", url: "https://example.com/physics-mechanics.pdf" },
+          { label: "Past Paper Tracker", url: "https://example.com/pastpapers" }
+        ]
+      },
+      {
+        group: "Group 5",
+        subject: "Mathematics: Analysis & Approaches",
+        level: "SL",
+        focus: "Functions • Calculus • Probability",
+        desc: "Key definitions, exam-style examples, and calculator tips.",
+        links: [
+          { label: "Function Toolkit", url: "https://example.com/functions" }
+        ]
+      },
+      {
+        group: "CORE",
+        subject: "TOK",
+        level: "CORE",
+        focus: "Essay • Exhibition",
+        desc: "Prompt unpacking, claims/counterclaims, and evidence selection.",
+        links: [
+          { label: "TOK Exhibition Template", url: "https://example.com/tok-exhibition" },
+        ]
+      },
+      {
+        group: "CORE",
+        subject: "Extended Essay (EE)",
+        level: "CORE",
+        focus: "RQ • Method • Structure",
+        desc: "Research question patterns, supervisor meeting notes, and citation workflow.",
+        links: [
+          { label: "EE Planning Sheet", url: "https://example.com/ee-planner" },
+        ]
+      }
+    ];
+    // ===========================
+
+    const GROUPS = ["All", "Group 1", "Group 2", "Group 3", "Group 4", "Group 5", "Group 6", "CORE"];
+
+    const chipsEl = document.getElementById("chips");
+    const gridEl = document.getElementById("grid");
+    const searchEl = document.getElementById("search");
+    const levelEl  = document.getElementById("level");
+
+    let activeGroup = "All";
+
+    function chip(label){
+      const el = document.createElement("div");
+      el.className = "chip" + (label === "All" ? " active" : "");
+      el.textContent = label;
+      el.addEventListener("click", () => {
+        activeGroup = label;
+        [...chipsEl.children].forEach(c => c.classList.remove("active"));
+        el.classList.add("active");
+        render();
+      });
+      return el;
+    }
+
+    GROUPS.forEach(g => chipsEl.appendChild(chip(g)));
+
+    function normalize(s){ return (s||"").toLowerCase().trim(); }
+
+    function matches(guide){
+      const q = normalize(searchEl.value);
+      const level = levelEl.value;
+
+      const groupOK = (activeGroup === "All") || (guide.group === activeGroup);
+      const levelOK =
+        (level === "ALL") ||
+        (level === "CORE" && guide.level === "CORE") ||
+        (guide.level === level);
+
+      if(!groupOK || !levelOK) return false;
+
+      if(!q) return true;
+      const hay = normalize([guide.group, guide.subject, guide.level, guide.focus, guide.desc].join(" "));
+      return hay.includes(q);
+    }
+
+    function card(guide){
+      const el = document.createElement("div");
+      el.className = "card";
+      el.innerHTML = `
+        <div class="meta">
+          <span class="tag">${guide.group}</span>
+          <span class="tag">${guide.level}</span>
+        </div>
+        <h3 class="title">${guide.subject}</h3>
+        <div class="tag" style="width:fit-content">${guide.focus}</div>
+        <p class="desc">${guide.desc}</p>
+        <button class="btn">Open guide</button>
+      `;
+      el.querySelector(".btn").addEventListener("click", () => openModal(guide));
+      return el;
+    }
+
+    function render(){
+      gridEl.innerHTML = "";
+      const list = GUIDES.filter(matches);
+
+      if(list.length === 0){
+        const empty = document.createElement("div");
+        empty.className = "card";
+        empty.style.gridColumn = "1 / -1";
+        empty.innerHTML = `
+          <h3 class="title">No results</h3>
+          <p class="desc">Try a different keyword (e.g., “Paper 1”, “stoichiometry”, “HL essay”) or change filters.</p>
+        `;
+        gridEl.appendChild(empty);
+        return;
+      }
+
+      list.forEach(g => gridEl.appendChild(card(g)));
+    }
+
+    // Modal
+    const modalBack = document.getElementById("modalBack");
+    const closeBtn = document.getElementById("closeBtn");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalMeta = document.getElementById("modalMeta");
+    const modalDesc = document.getElementById("modalDesc");
+    const modalLinks = document.getElementById("modalLinks");
+
+    function openModal(guide){
+      modalTitle.textContent = guide.subject;
+      modalMeta.textContent = `${guide.group} • ${guide.level} • ${guide.focus}`;
+      modalDesc.textContent = guide.desc;
+      modalLinks.innerHTML = "";
+
+      (guide.links || []).forEach(l => {
+        const item = document.createElement("div");
+        item.className = "linkItem";
+        item.innerHTML = `
+          <div>
+            <div style="font-weight:700">${l.label}</div>
+            <small>${l.url}</small>
+          </div>
+          <a class="open" href="${l.url}" target="_blank" rel="noopener">Open ↗</a>
+        `;
+        modalLinks.appendChild(item);
+      });
+
+      modalBack.style.display = "flex";
+      modalBack.setAttribute("aria-hidden","false");
+    }
+
+    function closeModal(){
+      modalBack.style.display = "none";
+      modalBack.setAttribute("aria-hidden","true");
+    }
+
+    closeBtn.addEventListener("click", closeModal);
+    modalBack.addEventListener("click", (e) => { if(e.target === modalBack) closeModal(); });
+    window.addEventListener("keydown", (e) => { if(e.key === "Escape") closeModal(); });
+
+    searchEl.addEventListener("input", render);
+    levelEl.addEventListener("change", render);
+
+    render();
+  </script>
+</body>
+</html>
